@@ -1,6 +1,7 @@
 package database.service;
 
 import database.JDBCPostgreSQL;
+import database.entity.Cooperator;
 import database.entity.Department;
 import database.service.utils.ListCreator;
 
@@ -11,9 +12,11 @@ import java.util.List;
 public class DepartmentService {
 
     private JDBCPostgreSQL jdbcPostgreSQL;
+    private CooperatorsService cooperatorsService;
 
     public DepartmentService() {
         this.jdbcPostgreSQL = JDBCPostgreSQL.getInstance();
+        cooperatorsService = new CooperatorsService();
     }
 
     public List<Department> findAll() throws SQLException {
@@ -46,6 +49,10 @@ public class DepartmentService {
     }
 
     public void deleteDepartment(int id) throws SQLException{
+        List<Cooperator> cooperators = cooperatorsService.findAllCoopFromDep(id);
+        if (cooperators != null){
+            jdbcPostgreSQL.writeToDatabase("DELETE FROM COOPERATORS WHERE DEPARTMENT_ID=" +id);
+        }
         jdbcPostgreSQL.writeToDatabase("DELETE FROM DEPARTMENTS WHERE ID=" + id);
     }
 
