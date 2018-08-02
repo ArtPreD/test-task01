@@ -1,6 +1,5 @@
 package database;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
@@ -109,7 +108,7 @@ public class JDBCPostgreSQL {
         Properties property = new Properties();
         try {
             ClassLoader cl = this.getClass().getClassLoader();
-            property.load(cl.getResourceAsStream("config.properties"));
+            property.load(cl.getResourceAsStream("test-config.properties"));
 
             URL = property.getProperty("db.host");
             USERNAME = property.getProperty("db.login");
