@@ -55,7 +55,7 @@ public class CoopServlet extends HttpServlet {
                 request.setAttribute("date", date);
 
                 response.setContentType("text/html;charset=utf-8");
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/coopList.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/coopList.jsp");
                 requestDispatcher.forward(request, response);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -85,7 +85,7 @@ public class CoopServlet extends HttpServlet {
                 request.setAttribute("email", request.getParameter("email"));
                 request.setAttribute("date", request.getParameter("date"));
                 response.setContentType("text/html;charset=utf-8");
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/coopList.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/coopList.jsp");
                 requestDispatcher.forward(request, response);
             }
 
@@ -100,7 +100,7 @@ public class CoopServlet extends HttpServlet {
                 request.setAttribute("email", request.getParameter("email"));
                 request.setAttribute("date", request.getParameter("date"));
                 response.setContentType("text/html;charset=utf-8");
-                RequestDispatcher requestDispatcher = request.getRequestDispatcher("/coopList.jsp");
+                RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/coopList.jsp");
                 requestDispatcher.forward(request, response);
                 return;
             }
@@ -112,7 +112,7 @@ public class CoopServlet extends HttpServlet {
             request.setAttribute("error", false);
 
             response.setContentType("text/html;charset=utf-8");
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/coopList.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/coopList.jsp");
             requestDispatcher.forward(request, response);
         } catch (SQLException | ParseException e) {
             e.printStackTrace();

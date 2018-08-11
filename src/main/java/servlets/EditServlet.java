@@ -61,7 +61,7 @@ public class EditServlet extends HttpServlet{
         }
 
         response.setContentType("text/html;charset=utf-8");
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/edit.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/edit.jsp");
         requestDispatcher.forward(request, response);
     }
 
@@ -114,7 +114,7 @@ public class EditServlet extends HttpServlet{
                     request.setAttribute("date", d);
 
                     response.setContentType("text/html;charset=utf-8");
-                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/edit.jsp");
+                    RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/edit.jsp");
                     requestDispatcher.forward(request, response);
                 }
 
@@ -144,7 +144,7 @@ public class EditServlet extends HttpServlet{
         }
 
         response.setContentType("text/html;charset=utf-8");
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/edit.jsp");
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/edit.jsp");
         requestDispatcher.forward(request, response);
     }
 }

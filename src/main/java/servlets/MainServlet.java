@@ -49,7 +49,7 @@ public class MainServlet extends HttpServlet {
             request.setAttribute("error", false);
 
             response.setContentType("text/html;charset=utf-8");
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/main.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
             requestDispatcher.forward(request, response);
         }
     }
@@ -73,7 +73,7 @@ public class MainServlet extends HttpServlet {
                 request.setAttribute("name", request.getParameter("name"));
             }
             response.setContentType("text/html;charset=utf-8");
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/main.jsp");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/jsp/main.jsp");
             requestDispatcher.forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
