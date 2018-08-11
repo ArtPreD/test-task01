@@ -50,9 +50,7 @@ public class EditServlet extends HttpServlet{
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String date = df.format(cooperator.getDate());
                 request.setAttribute("depId", depId);
-                request.setAttribute("name", cooperator.getName());
-                request.setAttribute("email", cooperator.getEmail());
-                request.setAttribute("salary", cooperator.getSalary());
+                request.setAttribute("coop", cooperator);
                 request.setAttribute("isCoop", true);
                 request.setAttribute("date", date);
             }catch (SQLException e){

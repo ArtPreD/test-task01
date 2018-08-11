@@ -26,11 +26,11 @@
             </c:if>
             <c:if test="${isCoop}">
                 <label for="name">Введите новое данные сотрудника</label>
-                <input class="form-control" type="name" name="name" id="name" value="${name}" required>
+                <input class="form-control" type="name" name="name" id="name" value="${coop.name}" required>
                 <label for="email">Email</label>
-                <input class="form-control" type="email" name="email" value="${email}" id="email" required>
+                <input class="form-control" type="email" name="email" value="${coop.email}" id="email" required>
                 <label for="salary">Оклад</label>
-                <input class="form-control" type="text" name="salary" value="${salary}" id="salary" required>
+                <input class="form-control" type="text" name="salary" value="${coop.salary}" id="salary" required>
                 <label for="date">Дата приема на работу</label>
                 <input class="form-control" type="date" name="date" id="date" value="${date}" placeholder="" required>
                 <input type="hidden" name="depid" id="depid" value="${dep.id}">
