@@ -1,5 +1,5 @@
 .idea/
-/src/main/resources/
 target/
 
 departments.iml
+/src/main/resources/config.properties
