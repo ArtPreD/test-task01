@@ -10,13 +10,19 @@ public class JDBCPostgreSQL {
     private static String PASSWORD = "";
     private static JDBCPostgreSQL jdbcPostgreSQL;
 
-    private Connection connection = null;
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-    public static JDBCPostgreSQL getInstance(){
-        if(jdbcPostgreSQL == null){
+    public static JDBCPostgreSQL getInstance() {
+        if (jdbcPostgreSQL == null) {
             jdbcPostgreSQL = new JDBCPostgreSQL();
         }
-            return jdbcPostgreSQL;
+        return jdbcPostgreSQL;
     }
 
     private JDBCPostgreSQL() {
@@ -24,16 +30,10 @@ public class JDBCPostgreSQL {
     }
 
     public Connection getDatabaseConnection() throws SQLException {
-        try{
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        if (connection == null){
+        Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        if (connection == null) {
             throw new SQLException("Cannot connect to database");
-        }else {
+        } else {
             return connection;
         }
     }
@@ -47,17 +47,7 @@ public class JDBCPostgreSQL {
         return resultSet;
     }
 
-    public void writeToDatabase(String query) throws SQLException{
-        Connection connection = getDatabaseConnection();
-        Statement statement = connection.createStatement();
-
-        statement.execute(query);
-
-        statement.close();
-        connection.close();
-    }
-
-    private void init(){
+    private void init() {
         readProperty();
         Connection connection = null;
         Statement statement = null;
@@ -84,17 +74,17 @@ public class JDBCPostgreSQL {
             statement.execute(createTableDepartments);
             statement.execute(createTableCooperators);
 
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             ex.printStackTrace();
-        }finally {
-            if (connection != null){
+        } finally {
+            if (connection != null) {
                 try {
                     connection.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
-            if (statement != null){
+            if (statement != null) {
                 try {
                     statement.close();
                 } catch (SQLException e) {

@@ -5,6 +5,7 @@ import database.entity.Cooperator;
 import database.entity.Department;
 import database.service.utils.ListCreator;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,39 +26,66 @@ public class DepartmentService {
     }
 
     public Department findByName(String name) throws SQLException {
-        ResultSet resultSet = jdbcPostgreSQL.getResultSet(
-                "SELECT * FROM DEPARTMENTS WHERE NAME=" + "'" + name + "'");
-        if(resultSet.next()) {
-            return new Department(resultSet.getInt("ID"), name);
-        }else {
+        PreparedStatement statement = jdbcPostgreSQL.getDatabaseConnection()
+                .prepareStatement("SELECT * FROM DEPARTMENTS WHERE NAME=?");
+        statement.setObject(1, name);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            int id = resultSet.getInt("ID");
+            statement.close();
+            return new Department(id, name);
+        } else {
+            statement.close();
             return null;
         }
     }
 
-    public Department findDepById(int id) throws SQLException{
-        ResultSet resultSet = jdbcPostgreSQL.getResultSet(
-                "SELECT * FROM DEPARTMENTS WHERE ID=" + "'" + id + "'");
-        if(resultSet.next()) {
-            return new Department(id, resultSet.getString("NAME"));
-        }else {
+    public Department findDepById(int id) throws SQLException {
+        PreparedStatement statement = jdbcPostgreSQL.getDatabaseConnection()
+                .prepareStatement("SELECT * FROM DEPARTMENTS WHERE ID=?");
+        statement.setObject(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            String name = resultSet.getString("NAME");
+            statement.close();
+            return new Department(id, name);
+        } else {
+            statement.close();
             return null;
         }
     }
 
-    public void createDepartment(String name) throws SQLException{
-        jdbcPostgreSQL.writeToDatabase("INSERT INTO DEPARTMENTS(NAME) VALUES('" + name + "')");
+    public void createDepartment(String name) throws SQLException {
+        PreparedStatement statement = jdbcPostgreSQL.getDatabaseConnection()
+                .prepareStatement("INSERT INTO DEPARTMENTS(NAME) VALUES(?)");
+        statement.setObject(1, name);
+        statement.executeUpdate();
+        statement.close();
     }
 
-    public void deleteDepartment(int id) throws SQLException{
+    public void deleteDepartment(int id) throws SQLException {
         List<Cooperator> cooperators = cooperatorsService.findAllCoopFromDep(id);
-        if (cooperators != null){
-            jdbcPostgreSQL.writeToDatabase("DELETE FROM COOPERATORS WHERE DEPARTMENT_ID=" +id);
+        PreparedStatement statement;
+        if (cooperators != null) {
+            statement = jdbcPostgreSQL.getDatabaseConnection()
+                    .prepareStatement("DELETE FROM COOPERATORS WHERE DEPARTMENT_ID=?");
+            statement.setObject(1, id);
+            statement.executeUpdate();
+            statement.close();
         }
-        jdbcPostgreSQL.writeToDatabase("DELETE FROM DEPARTMENTS WHERE ID=" + id);
+        statement = jdbcPostgreSQL.getDatabaseConnection()
+                .prepareStatement("DELETE FROM DEPARTMENTS WHERE ID=?");
+        statement.setObject(1, id);
+        statement.executeUpdate();
+        statement.close();
     }
 
     public void updateDepartment(Department department) throws SQLException {
-        jdbcPostgreSQL.writeToDatabase("UPDATE DEPARTMENTS SET NAME='" + department.getName() +
-        "' WHERE ID=" + department.getId());
+        PreparedStatement statement = jdbcPostgreSQL.getDatabaseConnection()
+                .prepareStatement("UPDATE  DEPARTMENTS SET NAME=? WHERE ID=?");
+        statement.setObject(1, department.getName());
+        statement.setObject(2, department.getId());
+        statement.executeUpdate();
+        statement.close();
     }
 }
