@@ -3,5 +3,36 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <display-name>Departments</display-name>
+  <!--Main servlet-->
+  <servlet>
+    <servlet-name>main</servlet-name>
+    <servlet-class>servlets.MainServlet</servlet-class>
+  </servlet>
+  <!--Cooperator servlet-->
+  <servlet>
+    <servlet-name>coop</servlet-name>
+    <servlet-class>servlets.CoopServlet</servlet-class>
+  </servlet>
+  <!--Edit servlet-->
+  <servlet>
+    <servlet-name>edit</servlet-name>
+    <servlet-class>servlets.EditServlet</servlet-class>
+  </servlet>
+
+  <!--Main servlet mapping-->
+  <servlet-mapping>
+    <servlet-name>main</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <!--Cooperator servlet mapping-->
+  <servlet-mapping>
+    <servlet-name>coop</servlet-name>
+    <url-pattern>/list</url-pattern>
+  </servlet-mapping>
+  <!--Edit servlet mapping-->
+  <servlet-mapping>
+    <servlet-name>edit</servlet-name>
+    <url-pattern>/edit</url-pattern>
+  </servlet-mapping>
 </web-app>
