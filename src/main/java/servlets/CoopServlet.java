@@ -3,7 +3,9 @@ package servlets;
 import database.entity.Cooperator;
 import database.entity.Department;
 import database.service.CooperatorsService;
-import database.service.DepartmentService;
+import database.service.CooperatorsServiceImpl;
+import database.service.DepartmentsService;
+import database.service.DepartmentsServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,13 +23,13 @@ import java.util.List;
 public class CoopServlet extends HttpServlet {
 
     private CooperatorsService cooperatorsService;
-    private DepartmentService departmentService;
+    private DepartmentsService departmentsService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        departmentService = new DepartmentService();
-        cooperatorsService = new CooperatorsService();
+        departmentsService = new DepartmentsServiceImpl();
+        cooperatorsService = new CooperatorsServiceImpl();
     }
 
     @Override
@@ -43,7 +45,7 @@ public class CoopServlet extends HttpServlet {
                     return;
                 }
                 List cooperators = cooperatorsService.findAllCoopFromDep(id);
-                Department department = departmentService.findDepById(id);
+                Department department = departmentsService.findDepById(id);
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String date = df.format(new Date());
 
@@ -67,7 +69,7 @@ public class CoopServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("depid"));
         try {
             List cooperators = cooperatorsService.findAllCoopFromDep(id);
-            Department department = departmentService.findDepById(id);
+            Department department = departmentsService.findDepById(id);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date date = format.parse(request.getParameter("date"));
             int salary = 0;

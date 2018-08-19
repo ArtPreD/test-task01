@@ -11,14 +11,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public class DepartmentService {
+public class DepartmentsServiceImpl implements DepartmentsService{
 
     private JDBCPostgreSQL jdbcPostgreSQL;
-    private CooperatorsService cooperatorsService;
+    private CooperatorsServiceImpl cooperatorsServiceImpl;
 
-    public DepartmentService() {
+    public DepartmentsServiceImpl() {
         this.jdbcPostgreSQL = new JDBCPostgreSQL();
-        this.cooperatorsService = new CooperatorsService();
+        this.cooperatorsServiceImpl = new CooperatorsServiceImpl();
     }
 
     public List<Department> findAll() throws SQLException {
@@ -83,7 +83,7 @@ public class DepartmentService {
 
     public void deleteDepartment(int id) throws SQLException {
         Connection connection = jdbcPostgreSQL.getDatabaseConnection();
-        List<Cooperator> cooperators = cooperatorsService.findAllCoopFromDep(id);
+        List<Cooperator> cooperators = cooperatorsServiceImpl.findAllCoopFromDep(id);
         PreparedStatement statement;
         if (cooperators != null) {
             statement = connection

@@ -11,11 +11,11 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-public class CooperatorsService {
+public class CooperatorsServiceImpl implements CooperatorsService {
 
     private JDBCPostgreSQL jdbcPostgreSQL;
 
-    public CooperatorsService() {
+    public CooperatorsServiceImpl() {
         this.jdbcPostgreSQL = new JDBCPostgreSQL();
     }
 

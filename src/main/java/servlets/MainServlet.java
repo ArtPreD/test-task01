@@ -1,7 +1,8 @@
 package servlets;
 
 import database.entity.Department;
-import database.service.DepartmentService;
+import database.service.DepartmentsService;
+import database.service.DepartmentsServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,12 +15,12 @@ import java.util.List;
 
 public class MainServlet extends HttpServlet {
 
-    private DepartmentService service;
+    private DepartmentsService departmentsService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        service = new DepartmentService();
+        departmentsService = new DepartmentsServiceImpl();
     }
 
     @Override
@@ -28,7 +29,7 @@ public class MainServlet extends HttpServlet {
         String action = request.getParameter("action");
         if(action != null && action.equals("delete")){
             try {
-                service.deleteDepartment(Integer.parseInt(request.getParameter("id")));
+                departmentsService.deleteDepartment(Integer.parseInt(request.getParameter("id")));
                 response.sendRedirect("/");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -36,8 +37,7 @@ public class MainServlet extends HttpServlet {
         }else {
             List departments = null;
             try {
-
-                departments = service.findAll();
+                departments = departmentsService.findAll();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -57,14 +57,14 @@ public class MainServlet extends HttpServlet {
         List departments;
         request.setCharacterEncoding("UTF-8");
         try {
-           Department departmentFromDB = service.findByName(request.getParameter("name"));
+           Department departmentFromDB = departmentsService.findByName(request.getParameter("name"));
             if(departmentFromDB == null){
-                service.createDepartment(request.getParameter("name"));
-                departments = service.findAll();
+                departmentsService.createDepartment(request.getParameter("name"));
+                departments = departmentsService.findAll();
                 request.setAttribute("depList", departments);
                 request.setAttribute("error", false);
             }else {
-                departments = service.findAll();
+                departments = departmentsService.findAll();
                 request.setAttribute("depList", departments);
                 request.setAttribute("error", true);
                 request.setAttribute("name", request.getParameter("name"));

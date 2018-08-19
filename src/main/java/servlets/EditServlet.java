@@ -3,7 +3,9 @@ package servlets;
 import database.entity.Cooperator;
 import database.entity.Department;
 import database.service.CooperatorsService;
-import database.service.DepartmentService;
+import database.service.CooperatorsServiceImpl;
+import database.service.DepartmentsService;
+import database.service.DepartmentsServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,13 +23,13 @@ import java.util.Date;
 public class EditServlet extends HttpServlet{
 
     private CooperatorsService cooperatorsService;
-    private DepartmentService departmentService;
+    private DepartmentsService departmentsService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        this.cooperatorsService = new CooperatorsService();
-        this.departmentService = new DepartmentService();
+        this.cooperatorsService = new CooperatorsServiceImpl();
+        this.departmentsService = new DepartmentsServiceImpl();
     }
 
     @Override
@@ -38,7 +40,7 @@ public class EditServlet extends HttpServlet{
 
         if(q.equals("dep")){
             try {
-                request.setAttribute("dep", departmentService.findDepById(id));
+                request.setAttribute("dep", departmentsService.findDepById(id));
                 request.setAttribute("isDep", true);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -75,15 +77,15 @@ public class EditServlet extends HttpServlet{
 
         if(q.equals("dep")){
             try {
-                Department department = departmentService.findByName(name);
+                Department department = departmentsService.findByName(name);
                 if (department == null) {
-                    departmentService.updateDepartment(new Department(id, name));
+                    departmentsService.updateDepartment(new Department(id, name));
                     response.sendRedirect("/");
                     return;
                 }else {
                     request.setAttribute("error", true);
                     request.setAttribute("errorMessage", "Департамент с таким именем уже существует!");
-                    request.setAttribute("dep", departmentService.findDepById(id));
+                    request.setAttribute("dep", departmentsService.findDepById(id));
                     request.setAttribute("isDep", true);
                     request.setAttribute("name", name);
                 }
