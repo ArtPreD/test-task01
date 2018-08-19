@@ -3,3 +3,4 @@ target/
 
 departments.iml
 /src/main/resources/config.properties
+/src/main/java/Test.java
