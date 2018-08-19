@@ -1,14 +1,20 @@
 package database;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 public class JDBCPostgreSQL {
     private static String URL = "";
     private static String USERNAME = "";
     private static String PASSWORD = "";
-    private static JDBCPostgreSQL jdbcPostgreSQL;
+
+    private static HikariDataSource data;
 
     static {
         try {
@@ -18,19 +24,19 @@ public class JDBCPostgreSQL {
         }
     }
 
-    public static JDBCPostgreSQL getInstance() {
-        if (jdbcPostgreSQL == null) {
-            jdbcPostgreSQL = new JDBCPostgreSQL();
+    public JDBCPostgreSQL() {
+        if (data == null) {
+            readProperty();
+            HikariConfig config = new HikariConfig();
+            config.setJdbcUrl(URL + "&user=" + USERNAME + "&password=" + PASSWORD);
+            config.setMaximumPoolSize(16);
+            data = new HikariDataSource(config);
+            init();
         }
-        return jdbcPostgreSQL;
-    }
-
-    private JDBCPostgreSQL() {
-        init();
     }
 
     public Connection getDatabaseConnection() throws SQLException {
-        Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        Connection connection = data.getConnection();
         if (connection == null) {
             throw new SQLException("Cannot connect to database");
         } else {
@@ -38,17 +44,7 @@ public class JDBCPostgreSQL {
         }
     }
 
-    public ResultSet getResultSet(String query) throws SQLException {
-        Connection connection = getDatabaseConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-
-        connection.close();
-        return resultSet;
-    }
-
     private void init() {
-        readProperty();
         Connection connection = null;
         Statement statement = null;
 
