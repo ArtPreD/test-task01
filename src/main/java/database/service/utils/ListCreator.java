@@ -17,14 +17,10 @@ public class ListCreator {
             departments.add(new Department(resultSet.getInt("ID"),
                     resultSet.getString("NAME")));
         }
-
         resultSet.close();
-
         if (departments.isEmpty()) {
-            resultSet.close();
             return null;
         }
-
         return departments;
     }
 
@@ -35,14 +31,10 @@ public class ListCreator {
                     resultSet.getString("NAME"), resultSet.getString("EMAIL"),
                     resultSet.getInt("SALARY"), resultSet.getDate("DATE")));
         }
-
         resultSet.close();
-
         if (cooperators.isEmpty()) {
-            resultSet.close();
             return null;
         }
-
         return cooperators;
     }
 }
